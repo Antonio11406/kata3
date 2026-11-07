@@ -17,7 +17,7 @@ public class FileGameReader implements GameReader{
 
 
     @Override
-    public List<Game> readAll(){
+    public List<Game> readAll() throws FileNotFoundException {
         InputStream is = new FileInputStream(file);
         return loadFrom(is);
     }
@@ -33,7 +33,11 @@ public class FileGameReader implements GameReader{
     }
 
     private Game toGame(String[] fields){
-        return new Game(fields[1].trim(), platformOf(fields[2]), Integer.parseInt(fields[3]), genreOf(fields[4]));
+        try {
+            return new Game(fields[1].trim(), platformOf(fields[2]), Integer.parseInt(fields[3]), genreOf(fields[4]));
+        }catch (Exception e){
+            return null;
+        }
     }
 
     private Genre genreOf(String field) {

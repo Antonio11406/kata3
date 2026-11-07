@@ -5,5 +5,5 @@ import software.ulpgc.kata3.domain.Game;
 import java.util.List;
 
 public interface GameSerializer {
-    void serialize(List<Game> games) throws  Exception
+    void serialize(List<Game> games) throws  Exception;
 }
