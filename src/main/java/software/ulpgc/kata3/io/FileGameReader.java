@@ -10,13 +10,16 @@ import java.util.Objects;
 
 public class FileGameReader implements GameReader {
     private final File file;
+    private int discard;
 
     public FileGameReader(File file) {
+
         this.file = file;
+        this.discard = 0;
     }
 
     @Override
-    public List<Game> readAll() {
+    public List<Game> readAll() throws FileNotFoundException {
         InputStream is = new FileInputStream(file);
         return LoadFrom(is);
     }
@@ -32,8 +35,9 @@ public class FileGameReader implements GameReader {
 
     private Game toGame(String[] split) {
         try{
-            return new Game(split[1], genreOf(split[2]), Integer.parseInt(split[3]), platformOf(split[4]));
+            return new Game(split[1], platformOf(split[2]), Integer.parseInt(split[3]), genreOf(split[4]));
         }catch (Exception e){
+            discard++;
             return null;
         }
     }
@@ -44,5 +48,9 @@ public class FileGameReader implements GameReader {
 
     private Genre genreOf(String s) {
         return Genre.valueOf(s);
+    }
+
+    public int getDiscard() {
+        return discard;
     }
 }
