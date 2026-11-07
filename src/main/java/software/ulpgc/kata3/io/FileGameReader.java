@@ -37,11 +37,11 @@ public class FileGameReader implements GameReader{
     }
 
     private Genre genreOf(String field) {
-        return Genre.valueOf(field);
+        return Genre.valueOf(field.toUpperCase());
     }
 
     private Platform platformOf(String field) {
-        return Platform.valueOf(field);
+        return Platform.valueOf(field.toUpperCase());
     }
 
 }
