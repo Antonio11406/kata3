@@ -5,5 +5,5 @@ import software.ulpgc.kata3.domain.Game;
 import java.util.List;
 
 public interface GameReader {
-    List<Game> Games readAll();
+    List<Game> readAll();
 }
