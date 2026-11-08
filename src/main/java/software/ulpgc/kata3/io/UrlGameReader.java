@@ -34,7 +34,7 @@ public class UrlGameReader implements UrlReader{
     }
 
     private Game toGame(String [] fields){
-        return new Game(fields[1].trim(), platformOf(fields[2].trim()), Integer.parseInt(fields[3].trim()), genreOf(fields[4].trim()))
+        return new Game(fields[1].trim(), platformOf(fields[2].trim()), Integer.parseInt(fields[3].trim()), genreOf(fields[4].trim()));
     }
 
     private Genre genreOf(String trim) {
