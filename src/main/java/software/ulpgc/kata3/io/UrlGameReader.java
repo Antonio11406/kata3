@@ -4,20 +4,24 @@ import software.ulpgc.kata3.domain.Game;
 import software.ulpgc.kata3.domain.Genre;
 import software.ulpgc.kata3.domain.Platform;
 
+import javax.print.DocFlavor;
 import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 
 public class UrlGameReader implements UrlReader{
-    private final File file;
+    private final String urlLink;
 
-    public UrlGameReader(File file) {
-        this.file = file;
+    public UrlGameReader(String url) {
+        this.urlLink = url;
     }
 
     @Override
-    public List<Game> readAll() {
-        try (InputStream is = new FileInputStream(file);
+    public List<Game> readAll() throws MalformedURLException {
+        URL url = new URL(urlLink);
+        try (InputStream is = url.openStream();
              BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
 
             return reader.lines()
@@ -26,6 +30,7 @@ public class UrlGameReader implements UrlReader{
                     .filter(Objects::nonNull)
                     .toList();
         } catch (Exception e) {
+            return null;
         }
     }
 
@@ -33,8 +38,10 @@ public class UrlGameReader implements UrlReader{
         return toGame(lines.split(","));
     }
 
-    private Game toGame(String [] fields){
-        return new Game(fields[1].trim(), platformOf(fields[2].trim()), Integer.parseInt(fields[3].trim()), genreOf(fields[4].trim()));
+    private Game toGame(String [] fields) {
+        try {
+            return new Game(fields[1].trim(), platformOf(fields[2].trim()), Integer.parseInt(fields[3].trim()), genreOf(fields[4].trim()));
+        }catch (Exception e){ return null;}
     }
 
     private Genre genreOf(String trim) {
